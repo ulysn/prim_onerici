@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
@@ -5,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
 app.secret_key = "gizli_anahtar"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 db = SQLAlchemy(app)
@@ -48,6 +50,7 @@ def register():
 
         db.session.add(new_user)
         db.session.commit()
+        app.logger.info(f"Yeni kullanıcı kaydı: {username}")
         flash("Kayıt başarılı! Şimdi giriş yapabilirsin.")
         return redirect(url_for("login"))
     return render_template("register.html")
@@ -61,6 +64,7 @@ def login():
 
         if user and check_password_hash(user.password, password):
             login_user(user)
+            app.logger.info(f"Giriş yapıldı: {user.username}")
 
             if user.username == "admin":
                 return redirect(url_for("admin"))
@@ -141,6 +145,7 @@ def profile():
 @app.route("/logout")
 @login_required
 def logout():
+    app.logger.info(f"Çıkış yapıldı: {current_user.username}")
     logout_user()
     flash("Çıkış yapıldı.")
     return redirect(url_for("login"))
