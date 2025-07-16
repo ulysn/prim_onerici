@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}Admin Paneli{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+
+
+    <h2>Admin Paneli</h2>
+
+    <form method="POST" class="mb-3">
+        <input type="text" name="search" placeholder="Kullanıcı adı ara" class="form-control w-50 d-inline-block" required>
+        <button type="submit" class="btn btn-primary">Ara</button>
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-warning">
+          {% for msg in messages %}
+            {{ msg }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% if user %}
+        <h4>{{ user.username }} adlı kullanıcının anket geçmişi:</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Puan</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in results %}
+                <tr>
+                    <td>{{ r.date.strftime('%d.%m.%Y %H:%M') }}</td>
+                    <td>{{ r.score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+</div>
+{% endblock %}

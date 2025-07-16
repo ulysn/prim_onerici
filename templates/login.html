@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}Giriş Yap{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+
+    <h2 class="mb-4">Giriş Yap</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-warning">
+          {% for msg in messages %}
+            <div>{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <div class="mb-3">
+            <input name="username" class="form-control" placeholder="Kullanıcı Adı" required>
+        </div>
+
+        <div class="mb-3">
+            <div class="input-group">
+                <input id="login-password" name="password" type="password" class="form-control" placeholder="Şifre" required>
+                <span class="input-group-text" onclick="togglePassword('login-password')">👁</span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Giriş Yap</button>
+    </form>
+
+    <a href="{{ url_for('register') }}" class="d-block mt-3">Hesabınız yok mu? Kayıt olun</a>
+</div>
+
+<script>
+function togglePassword(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+}
+</script>
+{% endblock %}

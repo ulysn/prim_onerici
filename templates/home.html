@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}Ana Sayfa{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1 class="mb-4">Davranış Tabanlı Prim Önerici Sistemine Hoş Geldiniz</h1>
+    <p class="lead">Bu sistem, müşterilerin sağlık, trafik ve yaşam alışkanlıklarını analiz ederek onlar için en uygun sigorta primi önerisini sunar.</p>
+    <p>Giriş yaptıktan sonra sizi kısa bir anket bekliyor. Cevaplarınıza göre size özel bir prim önerisi sunulacak.</p>
+    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg mt-3">Hemen Başla</a>
+</div>
+{% endblock %}

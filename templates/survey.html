@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}Davranış Tabanlı Anket{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+
+    <h2 class="mb-4 text-center">Davranış Tabanlı Müşteri Anketi</h2>
+
+    <form method="POST">
+        {% set sorular = [
+            "Haftada en az 3 gün fiziksel aktivite yaparım.",
+            "Düzenli sağlık kontrollerimi yaptırırım.",
+            "Sigara veya tütün ürünleri kullanmıyorum.",
+            "Uyku düzenime dikkat ederim.",
+            "Hız limitlerine uyarım.",
+            "Son 1 yılda trafik cezası almadım.",
+            "Mevsime uygun ekipman kullanırım.",
+            "Alkol aldıktan sonra araç kullanmam.",
+            "Ödemelerimi zamanında yaparım.",
+            "Sözleşmeleri dikkatli okurum.",
+            "Sigorta geçmişime göre düşük riskli bir müşteriyim.",
+            "Sorunlarda iletişim yolunu tercih ederim.",
+            "Dijital uygulamaları aktif olarak kullanırım."
+        ] %}
+
+        {% for i in range(1, sorular|length + 1) %}
+        <div class="card p-4 mb-4 shadow-sm">
+            <h5 class="mb-3">{{ i }}. {{ sorular[i-1] }}</h5>
+            <input type="range" class="form-range" min="1" max="5" name="q{{ i }}" id="q{{ i }}"
+                   value="3" oninput="document.getElementById('q{{ i }}val').textContent = this.value"
+                   required>
+            <div>Puan: <span id="q{{ i }}val">3</span> / 5</div>
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary d-block mx-auto mt-4">Gönder ve Prim Öner</button>
+    </form>
+</div>
+{% endblock %}

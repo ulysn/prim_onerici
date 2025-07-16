@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}Bilgilerim{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Merhaba, {{ current_user.username }}</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-info mt-3">
+          {% for msg in messages %}
+            <div>{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <h4 class="mt-4">📋 Geçmiş Anket Sonuçlarım:</h4>
+    <ul class="list-group mb-4">
+        {% for r in results %}
+          <li class="list-group-item">
+            Tarih: {{ r.date.strftime('%d.%m.%Y %H:%M') }} | Puan: {{ r.score }}
+          </li>
+        {% else %}
+          <li class="list-group-item">Henüz anket doldurmadınız.</li>
+        {% endfor %}
+    </ul>
+
+    <h4>🔒 Şifre Değiştir:</h4>
+    <form method="POST">
+        <div class="mb-2">
+            <input type="password" class="form-control" name="current_password" placeholder="Mevcut Şifre" required>
+        </div>
+        <div class="mb-2">
+            <input type="password" class="form-control" name="new_password" placeholder="Yeni Şifre" required>
+        </div>
+        <button class="btn btn-warning" type="submit">Şifreyi Güncelle</button>
+    </form>
+
+    <a href="{{ url_for('survey') }}" class="btn btn-outline-primary mt-3">🔙 Ankete Dön</a>
+</div>
+{% endblock %}
