@@ -15,13 +15,13 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# Kullanıcı Modeli
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
 
-# Anket Sonucu Modeli
+
 class SurveyResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -85,12 +85,12 @@ def survey():
             cevap = int(request.form.get(f"q{i}", 0))
             total += cevap
 
-        # Veritabanına kaydet
+
         result = SurveyResult(user_id=current_user.id, score=total)
         db.session.add(result)
         db.session.commit()
 
-        # Prim önerisi
+
         if total >= 50:
             prim = "Yüksek prim indirimi önerilir (%20-30)."
         elif total >= 35:
@@ -155,7 +155,7 @@ def home():
     return render_template("home.html")
 
 
-# İlk çalıştırma için veritabanı oluşturma
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
